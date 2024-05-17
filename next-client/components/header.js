@@ -49,14 +49,57 @@ const Header = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    (async () => {
-      if (typeof wallet.signer.getAddress === 'function') {
-        const wallet_address = await wallet.signer.getAddress();
-        setAddress(wallet_address);
+  const checkIfWalletIsConnected = async () => {
+    try {
+      const { ethereum } = window;
+
+      const accounts = await ethereum.request({ method: 'eth_accounts' });
+      if (accounts.length) {
+        const account = accounts[0];
+        console.log('Found an authorized account ', account);
+        setAddress(account);
+        detailsOn();
+      } else {
+        await Disconnect();
+        console.log('Could not find an authorized account');
       }
-    })();
-  }, [wallet]);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const connectWallet = async () => {
+    try {
+      const { ethereum } = window;
+
+      if (!ethereum) {
+        alert('Use Metamask!');
+      } else {
+        const accounts = await ethereum.request({
+          method: 'eth_requestAccounts',
+        });
+        console.log('Account connected ', accounts[0]);
+
+        setAddress(accounts[0]);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const detailsOn = async () => {
+    const { ethereum } = window;
+    const provider = new ethers.providers.Web3Provider(ethereum);
+    const signer = provider.getSigner();
+
+    const addr = await signer.getAddress();
+
+    setAddress(addr.toString());
+  };
+
+  useEffect(() => {
+    checkIfWalletIsConnected();
+  }, []);
 
   async function Connect() {
     try {
