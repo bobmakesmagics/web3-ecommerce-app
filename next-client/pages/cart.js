@@ -1,23 +1,23 @@
-import Image from "next/image";
-import { Grid, Container, TextField } from "@mui/material";
-import { useSelector, useDispatch } from "react-redux";
-import { LoadingButton } from "@mui/lab";
-import { useState, useEffect } from "react";
-import OrderService from "../services/order";
-import { clear } from "../reducers/cart";
-import { useRouter } from "next/router";
-import styles from "../styles/cart.module.css";
-import Hero from "../components/hero";
+import Image from 'next/image';
+import { Grid, Container, TextField } from '@mui/material';
+import { useSelector, useDispatch } from 'react-redux';
+import { LoadingButton } from '@mui/lab';
+import { useState, useEffect } from 'react';
+import OrderService from '../services/order';
+import { clear } from '../reducers/cart';
+import { useRouter } from 'next/router';
+import styles from '../styles/cart.module.css';
+import Hero from '../components/hero';
 
 const CartPage = () => {
   const cart = useSelector((state) => state.cart.value);
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (cart.products.length === 0) router.push("/");
+    if (cart.products.length === 0) router.push('/');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -31,11 +31,11 @@ const CartPage = () => {
     if (email) {
       await OrderService.create({ products: cart.products, email })
         .then((res) => {
-          router.push("/order?id=" + res.data._id);
+          router.push('/order?id=' + res.data._id);
         })
         .catch((err) => {
           console.log(err);
-          alert("Error");
+          alert('Error');
         });
     }
     setLoading(false);
@@ -59,14 +59,14 @@ const CartPage = () => {
                     required
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    style={{ width: "70%", minWidth: "300px" }}
+                    style={{ width: '70%', minWidth: '300px' }}
                   />
                 </div>
-                <div style={{ padding: "3em 0 1em 0", textAlign: "right" }}>
+                <div style={{ padding: '3em 0 1em 0', textAlign: 'right' }}>
                   <LoadingButton
                     variant="contained"
                     type="submit"
-                    style={{ borderRadius: "12px" }}
+                    style={{ borderRadius: '12px' }}
                     className={!loading ? styles.btn : {}}
                     loading={loading}
                   >
@@ -84,20 +84,20 @@ const CartPage = () => {
                   <div className={styles.item} key={it.product}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img
-                      src={it.data ? it.data.img : "https://picsum.photos/200"}
+                      src={it.data ? it.data.img : 'https://picsum.photos/200'}
                       alt="item"
                       width={50}
                       height={50}
                     />
                     <span>{it.data.name}</span>
-                    <span>{it.data.price} BNB</span>
+                    <span>{it.data.price} MATIC</span>
                     <span>{it.quantity}</span>
                   </div>
                 ))}
               </div>
               <div>
                 <h4 className={styles.price}>
-                  Price: {cart.price.toFixed(5)} BNB
+                  Price: {cart.price.toFixed(5)} MATIC
                 </h4>
               </div>
             </div>

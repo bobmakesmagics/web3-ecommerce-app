@@ -1,14 +1,14 @@
-import React from "react";
-import { Button, IconButton } from "@mui/material";
-import Image from 'next/image'
-import { useSelector, useDispatch } from "react-redux";
-import { useRouter } from "next/router";
-import { remove } from "../reducers/cart";
-import { useState } from "react";
-import styles from "../styles/store.cart.module.css";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Slide from "@mui/material/Slide";
-import ClearIcon from "@mui/icons-material/Clear";
+import React from 'react';
+import { Button, IconButton } from '@mui/material';
+import Image from 'next/image';
+import { useSelector, useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { remove } from '../reducers/cart';
+import { useState } from 'react';
+import styles from '../styles/store.cart.module.css';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+import Slide from '@mui/material/Slide';
+import ClearIcon from '@mui/icons-material/Clear';
 import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 
@@ -18,18 +18,22 @@ export default function StoreCart() {
   const dispatch = useDispatch();
   const router = useRouter();
 
-  const Remove = (id,price)=>{
-    dispatch(remove({product:id,price}));
-  }
+  const Remove = (id, price) => {
+    dispatch(remove({ product: id, price }));
+  };
 
   return (
     <div>
       {!show && (
         <div className={styles.cartBtn} onClick={() => setShow(true)}>
           <ShoppingCartIcon />
-          {cart.products.length !== 0 && <span>{cart.products.reduce((total,item)=>{
-            return total+item.quantity
-          },0)}</span>}
+          {cart.products.length !== 0 && (
+            <span>
+              {cart.products.reduce((total, item) => {
+                return total + item.quantity;
+              }, 0)}
+            </span>
+          )}
         </div>
       )}
       {show && (
@@ -50,31 +54,42 @@ export default function StoreCart() {
             {cart.products.map((it) => (
               <div className={styles.item} key={it.product}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={it.data ? it.data.img : "https://picsum.photos/200"} alt="item" width={50} height={50} />
+                <img
+                  src={it.data ? it.data.img : 'https://picsum.photos/200'}
+                  alt="item"
+                  width={50}
+                  height={50}
+                />
                 <span>{it.data.name}</span>
-                <span>{it.data.price} BNB</span>
+                <span>{it.data.price} MATIC</span>
                 <span>{it.quantity}</span>
-                {it.quantity === 1 ? <IconButton
-                  aria-label="delete"
-                  onClick={()=>Remove(it.product,it.data.price)}
-                >
-                  <DeleteIcon />
-                </IconButton> : <IconButton
-                  aria-label="delete"
-                  onClick={()=>Remove(it.product,it.data.price)}
-                >
-                  <RemoveIcon />
-                </IconButton>}
+                {it.quantity === 1 ? (
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => Remove(it.product, it.data.price)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                ) : (
+                  <IconButton
+                    aria-label="delete"
+                    onClick={() => Remove(it.product, it.data.price)}
+                  >
+                    <RemoveIcon />
+                  </IconButton>
+                )}
               </div>
             ))}
           </div>
           <div>
-            <h4 className={styles.price}>Price: {cart.price.toFixed(5)} BNB</h4>
+            <h4 className={styles.price}>
+              Price: {cart.price.toFixed(5)} MATIC
+            </h4>
             <Button
               className={styles.buyBtn}
               color="success"
               variant="contained"
-              onClick={()=>router.push("/cart")}
+              onClick={() => router.push('/cart')}
             >
               Buy
             </Button>
