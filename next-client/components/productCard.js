@@ -17,16 +17,16 @@ export default function BasicCard({ name, price, img, description, add }) {
             'https://img.freepik.com/free-vector/hand-putting-golden-coin-donation-box-donate-concept-charity-share-illustration-flat-style_256722-27.jpg?w=2000'
           }
           alt="product"
-          width={100}
-          height={100}
+          width={'100%'}
+          height={'100%'}
         />
       </div>
       <CardContent sx={{ textAlign: 'center' }}>
-        <Typography variant="h5" component="div" sx={{ mb: 1.5 }}>
+        <Typography variant="h6" component="div" sx={{ mb: 1.5 }}>
           {name}
         </Typography>
         <Typography
-          sx={{ mb: 1.5, fontSize: '2em', fontWeight: '800', lineHeight: 1 }}
+          sx={{ mb: 1.5, fontSize: '1.5em', fontWeight: '800', lineHeight: 1 }}
         >
           {price} MATIC
         </Typography>
