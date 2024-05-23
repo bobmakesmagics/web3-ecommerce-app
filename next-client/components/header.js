@@ -99,7 +99,7 @@ const Header = () => {
 
   useEffect(() => {
     checkIfWalletIsConnected();
-  }, []);
+  }, [wallet]);
 
   async function Connect() {
     try {
@@ -181,35 +181,29 @@ const Header = () => {
         </NextLink>
       </div>
       <div style={{ flex: 'none' }}>
-        {!wallet.connected && (
+        {!wallet.connected || !address ? (
           <button className={styles.connectBtn} onClick={Connect}>
             Connect Wallet
           </button>
+        ) : wallet.chainId.toString() === process.env.NEXT_PUBLIC_CHAIN ? (
+          <button
+            className={styles.connectBtn}
+            style={{ background: '#FF5525' }}
+            onClick={Disconnect}
+          >
+            {address.substring(0, 6) +
+              '...' +
+              address.substring(address.length - 4)}
+          </button>
+        ) : (
+          <button
+            className={styles.connectBtn}
+            style={{ background: 'red' }}
+            onClick={wrongNetwork}
+          >
+            Wrong Network
+          </button>
         )}
-        {wallet.connected &&
-          wallet.chainId.toString() === process.env.NEXT_PUBLIC_CHAIN && (
-            <button
-              className={styles.connectBtn}
-              style={{ background: '#FF5525' }}
-              onClick={Disconnect}
-            >
-              {address
-                ? address.substring(0, 6) +
-                  '...' +
-                  address.substring(address.length - 4)
-                : 'Disconnect'}
-            </button>
-          )}
-        {wallet.connected &&
-          wallet.chainId.toString() !== process.env.NEXT_PUBLIC_CHAIN && (
-            <button
-              className={styles.connectBtn}
-              style={{ background: 'red' }}
-              onClick={wrongNetwork}
-            >
-              Wrong Network
-            </button>
-          )}
       </div>
     </header>
   );

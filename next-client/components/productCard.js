@@ -30,9 +30,9 @@ export default function BasicCard({ name, price, img, description, add }) {
         >
           {price} MATIC
         </Typography>
-        <Typography variant="body2" sx={{ mb: 1.5 }} color="text.secondary">
+        {/* <Typography variant="body2" sx={{ mb: 1.5 }} color="text.secondary">
           {description}
-        </Typography>
+        </Typography> */}
       </CardContent>
       <CardActions>
         <Button className={styles.cardBtn} variant="contained" onClick={add}>
